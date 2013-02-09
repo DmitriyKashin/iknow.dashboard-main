@@ -1,0 +1,58 @@
+doctype 5
+html
+  head
+   script(type='text/javascript', src='javascripts/jquery.checkboxtree.js')
+   link(rel='stylesheet', href='/stylesheets/jquery.checkboxtree.css')
+   script(type='text/javascript', src='javascripts/iknow.app.js')
+
+
+  body
+
+
+    br
+    input(type="hidden", id="select", value="#{title}")
+
+
+    button(style=" color:white;font-size: 10px; height:25px;width:150px; margin-left:15px; ", class = "show_graph") Нарисовать графики
+
+    button(style=" color:white;font-size: 10px; height:25px;width:150px; margin-left:15px; ", class = "favorites") В избранное
+
+    p Date Start:
+     input(type="text",id="datepickerstart")
+    p Date Finish:
+     input(type="text",id="datepickerfinish")
+
+    button(style=" color:white;font-size: 10px; height:25px;width:150px; margin-left:15px; ", class = "get_events_tags") Получить события и тэги
+
+    ul.checkboxtree
+
+    ul.tags(style="display:none;")
+      li cohort
+        ul.cohort
+          ul
+            li
+              input(type="checkbox", style="display:none;")
+
+      li referer
+        ul.referer
+          ul
+            li
+              input(type="checkbox", style="display:none;")
+      li other
+        ul.other
+          ul
+            li
+              input(type="checkbox", style="display:none;")
+      li experiment
+        ul.experiment
+          ul
+            li
+              input(type="checkbox", style="display:none;")
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+doctype 5
+html
+  head
+   link(rel='stylesheet', href='/stylesheets/start/jquery-ui-1.8.23.custom.css')
+   link(rel='stylesheet', href='/stylesheets/jQuery.Tree.css')
+   link(rel='stylesheet', href='/stylesheets/jquery.gridster.css')
+   
+   script(type='text/javascript', src='javascripts/jquery-1.8.0.min.js')
+   script(type='text/javascript', src='javascripts/iknow.app.js')
+   script(type='text/javascript', src='javascripts/jquery.gridster.js')
+   script(type='text/javascript', src='javascripts/iknow.app.switchers.js') 
+   script(type='text/javascript', src='javascripts/jQuery.Tree.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.line.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.bar.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.common.core.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.common.effects.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.common.dynamic.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.common.resizing.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.common.key.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.common.context.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.common.tooltips.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.scatter.js')
+   script(type='text/javascript', src='javascripts/RGraph/libraries/RGraph.common.dynamic.js')
+   script(type='text/javascript', src='javascripts/jquery-ui-1.8.23.custom.min.js')
+   
+    
+  body
+    br
+    br  
+    button(style=" color:white;font-size: 10px; height:25px;width:150px; margin-left:15px; ", class = "save_param") Сохранить настройки
+    input(type="hidden", id="select", value="#{title}")
+    .gridster(style="margin-bottom:200px")
+      ul
+        
+
+  script(type='text/javascript')
+    var gridster;
+      $(function(){
+      gridster = $(".gridster ul").gridster({
+      widget_margins: [10, 10],
+      widget_base_dimensions: [140, 140],
+      min_cols: 6
+      }).data('gridster');
+      });
+
+  
+   

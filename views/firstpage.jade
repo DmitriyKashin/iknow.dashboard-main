@@ -1,0 +1,200 @@
+doctype 5
+html
+  head  
+   script(type='text/javascript', src='javascripts/jquery-1.8.0.min.js')
+   script(type='text/javascript', src='javascripts/iknow.app.js') 
+   script(type='text/javascript', src='javascripts/jQuery.Tree.js')
+   script(type='text/javascript', src='javascripts/jquery-ui-1.8.23.custom.min.js')
+
+  body
+    b(style="font-family: 'PFDinTextCompPro-Medium',sans-serif;color:white;font-size: 30px;") Фильтры:
+    br
+    br  
+    input(type="hidden", id="select", value="#{title}")
+      
+
+    button(style=" color:white;font-size: 10px; height:25px;width:150px; margin-left:15px; ", class = "show_graph") Нарисовать графики
+
+    button(style=" color:white;font-size: 10px; height:25px;width:150px; margin-left:15px; ", class = "favorites") В избранное   
+    ul.tree(style="color:white;margin-left:0px;padding-left:0px;font-family: 'PFDinTextCompPro-Medium',sans-serif;font-size: 20px;")
+
+     li(style="float:left;padding-right:50px;")
+      label(id="user")
+       input(type="checkbox", /)  
+       | user 
+      ul.user
+        li
+         label(id="user.show")
+           input(type="checkbox")  
+           | show
+         ul.show
+           li
+            label(id="user.show.settings")
+              input(type="checkbox")  
+              | settings
+           li
+            label(id="user.show.plans")
+              input(type="checkbox", /)  
+              | plans
+           li
+            label(id="user.show.likes")
+              input(type="checkbox", /)  
+              | likes
+           li
+            label(id="user.show.places")
+              input(type="checkbox", /)  
+              | places
+           li
+            label(id="user.show.events")
+              input(type="checkbox", /)  
+              | events
+           li
+            label(id="user.show.notes")
+              input(type="checkbox", /)  
+              | notes
+           li
+            label(id="user.show.follows")
+              input(type="checkbox", /)  
+              | follows
+           li
+            label(id="user.show.followers")
+              input(type="checkbox", /)  
+              | followers
+        li
+            label(id="user.update")
+              input(type="checkbox", /)  
+              | update
+        li
+            label(id="user.follow")
+              input(type="checkbox", /)  
+              | follow
+        li
+            label(id="user.unfollow")
+              input(type="checkbox", /)  
+              | unfollow
+        li
+            label(id="user.registrationFinished")
+              input(type="checkbox", /)  
+              | registrationFinished
+        li
+            label(id="user.invite")
+              input(type="checkbox", /)  
+              | invite 
+        
+
+
+    
+     li(style="float:left;padding-right:50px;")
+      label(id="pin")
+       input(type="checkbox", /)  
+       | pin 
+      ul.pin
+        li
+         label(id="pin.list")
+           input(type="checkbox", /)  
+           | list
+         ul.list
+            li
+             label(id="pin.list.popular")
+              input(type="checkbox", /)  
+              | popular
+            li
+             label(id="pin.list.new")
+              input(type="checkbox", /)  
+              | new
+            li
+             label(id="pin.list.contest")
+              input(type="checkbox", /)  
+              | contest
+            li
+             label(id="pin.list.friends")
+              input(type="checkbox", /)  
+              | friends
+            li
+             label(id="pin.list.userpins")
+              input(type="checkbox", /)  
+              | userpins
+            li
+             label(id="pin.list.userlikes")
+              input(type="checkbox", /)  
+              | userlikes
+        li
+         label(id="pin.show")
+           input(type="checkbox", /)  
+           | show
+        li
+         label(id="pin.create")
+           input(type="checkbox", /)  
+           | create
+        li
+         label(id="pin.update")
+           input(type="checkbox", /)  
+           | update
+        li
+         label(id="pin.delete")
+           input(type="checkbox", /)  
+           | delete
+        li
+         label(id="pin.like")
+           input(type="checkbox", /)  
+           | like
+        li
+         label(id="pin.unlike")
+           input(type="checkbox", /)  
+           | unlike
+        li
+         label(id="pin.repin")
+           input(type="checkbox", /)  
+           | repin
+        li
+         label(id="pin.comment")
+           input(type="checkbox", /)  
+           | comment
+
+        
+     li(style="padding-right:0px; float:left;")
+      label(id="plan")
+       input(type="checkbox" , /) 
+       | plan 
+      ul.plan
+        li
+         label(id="plan.show")
+           input(type="checkbox", /)  
+           | show
+        li
+         label(id="plan.create")
+           input(type="checkbox", /)  
+           | create
+        li
+         label(id="plan.update")
+           input(type="checkbox", /)  
+           | update
+        li
+         label(id="plan.delete")
+           input(type="checkbox", /)  
+           | delete
+        li
+         label(id="plan.follow")
+           input(type="checkbox", /)  
+           | follow
+        li
+         label(id="plan.unfollow")
+           input(type="checkbox", /)  
+           | unfollow
+
+
+    
+      
+         
+    
+   
+   
+    
+   
+      
+   
+      
+
+    
+
+   
