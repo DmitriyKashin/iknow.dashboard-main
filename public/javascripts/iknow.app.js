@@ -23,8 +23,9 @@ $(document)
     var current_code = 'trouble'; // Код ошибки, чтобы сервер не обрабатывал ошибочный запрос. (Отсылается 3 почему-то)
     var data_type = []; // Временная переменная для создания current_data_type
     var current_data_type = []; // Выбранные на текущий момент пользователем события для отрисовки графика ( не меняются, если пользователь отрисовал графики, а потом выбрал другие события)
-
-
+    var pie_data = [];
+    var pie_labels = [];
+    var constant_conversion = 0;
 
 
 
@@ -40,6 +41,7 @@ $(document)
     $(".hrefs").click(function(){
         $("#ui-tabs-1").empty();
         $("#ui-tabs-2").empty();
+
     })
 
 
@@ -82,7 +84,19 @@ function NumDay (day,mon,year) {
 
         if (graph_id!=0) RGraph.ObjectRegistry.Clear(graph_id); else  RGraph.ObjectRegistry.Clear('0');
 
-          if ($(".ui-tabs-selected a").text()=="Статистика по тэгам") // Если мы находимся на странице динамики событий
+
+
+        
+
+
+
+        
+
+
+
+
+
+          if ( ($(".ui-tabs-selected a").text()=="Статистика по тэгам") || ($(".ui-tabs-selected a").text()=="Постоянные показатели") ) // Если мы находимся на странице динамики событий
 
         {
 
@@ -101,7 +115,8 @@ function NumDay (day,mon,year) {
                         if (max_v[j]>max_value)
                             max_value = max_v[j];
                     }
-            if($("#graph_conversion-"+ graph_id + " span").text() == 'Hide Conversion'){
+
+            if (($("#graph_conversion-"+ graph_id + " span").text() == 'Hide Conversion')  || ($(".ui-tabs-selected a").text()=="Постоянные показатели") ) {
             for (i=0;i<first_metric.length;i++)
                 metric_100[i] = 2*max_value;}
 
@@ -147,9 +162,17 @@ function NumDay (day,mon,year) {
 
             if (type == 'hours_tags') {
 
+               if  ($(".ui-tabs-selected a").text()=="Постоянные показатели") {
+                 end_time= new Date(app.conversion.end_time);
+                 start_time= new Date(app.conversion.start_time);
+               }
+               else
+
+               {
+
                  end_time= new Date($('#datepickerfinish').val());
                  start_time= new Date($('#datepickerstart').val());
-
+                }
                  
 
 
@@ -173,8 +196,18 @@ function NumDay (day,mon,year) {
             if (type == 'days_tags') {
 
 
+               if  ($(".ui-tabs-selected a").text()=="Постоянные показатели") {
+                 end_time= new Date(app.conversion.end_time);
+                 start_time= new Date(app.conversion.start_time);
+               }
+               else
+                
+               {
+
                  end_time= new Date($('#datepickerfinish').val());
-                 start_time=new Date($('#datepickerstart').val());
+                 start_time= new Date($('#datepickerstart').val());
+                }
+
                  time = (NumDay(end_time.getDate(), end_time.getMonth()+1, GoodYear(end_time.getYear())) - NumDay(start_time.getDate(), start_time.getMonth()+1, GoodYear(start_time.getYear())));
                  labels = []
 
@@ -226,12 +259,61 @@ function data_selection(current_data_type_one, graph_numb) // Проверка �
         fifth_metric = [];
         sixth_metric = [];
         seventh_metric = [];
-
+       
 
         if ($("#graph_switcher-" + graph_numb + " span")
             .text() == 'Show Days')
 
-        {
+        {           
+
+             if ($(".ui-tabs-selected a").text()=="Постоянные показатели") {
+                    
+
+                    first_metric = data_tags_hours[current_data_type_one]["all"];
+
+                    if (current_data_type_one == app.conversion.from_a)
+                        selected_conversion = app.conversion.to_a;
+
+                    if (current_data_type_one == app.conversion.from_b)
+                        selected_conversion = app.conversion.to_b;
+
+                    if (current_data_type_one == app.conversion.from_c)
+                        selected_conversion = app.conversion.to_c;
+
+                    var max_value = 0;
+                    var max_v = [];
+                    max_v[0] = (Math.max.apply(null, first_metric));
+
+
+                    for(var j=0;j<max_v.length;j++)
+                    {
+                        if (max_v[j]>max_value)
+                            max_value = max_v[j];
+                    }
+
+                    
+                    var conversion_temp_1 = data_tags_hours[selected_conversion][current_data_tags[0]];
+                   
+
+
+                    for(i=0;i<data_tags_hours[selected_conversion][current_data_tags[0]].length;i++){
+
+                    if (first_metric[i] == 0)
+                        fifth_metric.push(max_value);
+                    else
+                        fifth_metric.push(max_value+(conversion_temp_1[i]/first_metric[i])*max_value);
+
+
+                    }
+
+
+                    drawing(first_metric, second_metric, third_metric, 'hours_tags', graph_numb, fourth_metric, fifth_metric, sixth_metric, seventh_metric);
+
+
+                }
+
+                else 
+
                 if($("#graph_conversion-"+ graph_numb + " span").text() == 'Hide Conversion')
 
                 {
@@ -300,6 +382,55 @@ function data_selection(current_data_type_one, graph_numb) // Проверка �
             .text() == 'Show Hours')
 
         {
+
+
+                if ($(".ui-tabs-selected a").text()=="Постоянные показатели") {
+
+
+                    first_metric = data_tags_days[current_data_type_one]["all"];
+
+                    if (current_data_type_one == app.conversion.from_a)
+                        selected_conversion = app.conversion.to_a;
+
+                    if (current_data_type_one == app.conversion.from_b)
+                        selected_conversion = app.conversion.to_b;
+                    
+                    if (current_data_type_one == app.conversion.from_c)
+                        selected_conversion = app.conversion.to_c;
+
+                    var max_value = 0;
+                    var max_v = [];
+                    max_v[0] = (Math.max.apply(null, first_metric));
+
+
+                    for(var j=0;j<max_v.length;j++)
+                    {
+                        if (max_v[j]>max_value)
+                            max_value = max_v[j];
+                    }
+
+
+                    var conversion_temp_1 = data_tags_days[selected_conversion][current_data_tags[0]];
+
+
+                    for(i=0;i<data_tags_days[selected_conversion][current_data_tags[0]].length;i++){
+
+                    if (first_metric[i] == 0)
+                        fifth_metric.push(max_value);
+                    else
+                        fifth_metric.push(max_value+(conversion_temp_1[i]/first_metric[i])*max_value);
+
+
+                    }
+
+
+                    drawing(first_metric, second_metric, third_metric, 'days_tags', graph_numb, fourth_metric, fifth_metric, sixth_metric, seventh_metric);
+
+
+                }
+
+                else 
+
 
                 if($("#graph_conversion-"+ graph_numb + " span").text() == 'Hide Conversion')
 
@@ -380,9 +511,20 @@ function data_selection(current_data_type_one, graph_numb) // Проверка �
 var dynamic_graph = function(type) {
 
 
-            for (j = 0; j < current_data_type.length; j++) {
+
+           
+
+            for (j = 0; j < current_data_type.length-constant_conversion; j++) {
 
 
+
+                  if ($(".ui-tabs-selected a").text()=="Постоянные показатели") {
+
+                    $("#ui-tabs-2")
+                        .append('<div  id="graph_div-' + j + '" style="margin-top:50px;"><b style="color:white;position:absolute;margin-left:200px;">Конверсия ' + current_data_type[j] + ' к ' +current_data_type[j+3]+' </b><button  style ="font-size: 10px;position:absolute;" id="graph_switcher-' + j + '" class="switcher_tags">Show Days</button><canvas id="' + j + '" width="1000" height="350"  style="margin-top:50px;"no="" canvas=""  support=""></canvas></div> ');
+    
+                    
+                }
 
                 if ($(".ui-tabs-selected a").text()=="Статистика по тэгам") {
 
@@ -391,15 +533,22 @@ var dynamic_graph = function(type) {
 
 
 
+              
+
+
                 }
 
 
 
-                for (var conv=0;conv<current_data_type.length;conv++){
+
+                for (var conv=0;conv<current_data_type.length;conv++)
+
+                {
 
                 if (current_data_type[conv] != current_data_type[j])
-                $('#conversion_'+j).append('<option>'+current_data_type[conv]+'</option>');
+                    $('#conversion_'+j).append('<option>'+current_data_type[conv]+'</option>');
                 }
+
                     count = j;
                     $("button")
                         .button();
@@ -524,8 +673,10 @@ $('.conversion span').click(function() {
         }
 
 
+
+
     $(".show_graph")
-        .click(function () // Рисуем графики по нажатию на кнопку. Удаляем все предыдущие. Проверяем на лже-графики (pin, list..)
+        .click( init = function() 
 
 
     {
@@ -533,15 +684,91 @@ $('.conversion span').click(function() {
 
         current_data_type = current_data_type_test;
 
+
+        if ($(".ui-tabs-selected a").text()=="Постоянные показатели") {
+
+                current_data_type_test = []
+                current_data_type_test[0] = app.conversion.from_a 
+                current_data_type_test[1] = app.conversion.from_b 
+                current_data_type_test[2] = app.conversion.from_c
+                current_data_type_test[3] = app.conversion.to_a 
+                current_data_type_test[4] = app.conversion.to_b 
+                current_data_type_test[5] = app.conversion.to_c
+                constant_conversion = 3;
+
+                current_data_type = current_data_type_test;
+                current_data_tags = []
+                current_data_tags[0] = "all"
+
+
+                ajax_url = app.API_URL +"users_stat";
+                console.log(ajax_url);
+
+
+                    $.ajax(ajax_url, { 
+                        type: 'GET',
+
+                        dataType: 'json',
+                        success: function (data) {
+
+                       
+
+                        for (i=1;i<data.length;i++)
+                        {
+                           pie_data.push(data[i].count);
+                           pie_labels.push(data[i].descr);
+                        }
+                        console.log(pie_data);
+                        console.log(pie_labels);
+                        console.log('gg');
+
+            
+
+            var pie = new RGraph.Pie('pie', pie_data);
+            pie.Set('chart.labels', pie_labels);
+            pie.Set('chart.tooltips', pie_labels);
+            pie.Set('chart.tooltips.event', 'onmousemove');
+            pie.Set('chart.colors', ['RED','#FFCD00','#9900FF','#A0D305','','#FF7300','#004CB0']);
+            pie.Set('chart.strokestyle', 'green');
+            pie.Set('chart.linewidth', 4);
+            pie.Set('chart.shadow', true);
+            pie.Set('chart.shadow.offsetx', 2);
+            pie.Set('chart.shadow.offsety', 2);
+            pie.Set('chart.shadow.blur', 3);
+            pie.Set('chart.exploded', 4);
+            pie.Set('chart.labels.colors', ['#A0D300']);
+            pie.Set('chart.text.color', 'White');
+            
+            
+          
+            
+            pie.Draw();
+                                                
+
+
+
+                        },
+                        error: function (err) {
+
+                          alert('Something is  wrong');
+
+                        },
+                    });
+                                     
+        }
+
+
+
+
         $(".removable").remove();
 
         // Если мы на странице динамики :
 
 
 
-         if ($(this)
+         if (($(this)
             .parent()
-            .attr('id') == 'ui-tabs-1') {
+            .attr('id') == 'ui-tabs-1') || ($(".ui-tabs-selected a").text()=="Постоянные показатели")) {
 
         var ajax_i=0;
         var ajax_j=0;
@@ -553,8 +780,15 @@ $('.conversion span').click(function() {
 
             for (var j=0;j<current_data_tags.length;j++) {
 
+               
                 ajax_url=app.API_URL+"stat?event_tag="+current_data_tags[j]+"&event_type="+current_data_type_test[i]+"&end_time="+$('#datepickerfinish').val()+"&start_time="+$('#datepickerstart').val();
-                $.ajax(ajax_url, { // П
+
+                if ($(".ui-tabs-selected a").text()=="Постоянные показатели") 
+                    ajax_url=app.API_URL+"stat?event_tag="+current_data_tags[j]+"&event_type="+current_data_type_test[i]+"&end_time="+app.conversion.end_time+"&start_time="+app.conversion.start_time;
+
+
+
+                $.ajax(ajax_url, { 
                         type: 'GET',
 
                         dataType: 'json',
@@ -581,10 +815,11 @@ $('.conversion span').click(function() {
 
                         if (ajax_count == current_data_type_test.length*current_data_tags.length)
 
-                         {
-
+                         {      
+                                
+                                console.log(data_tags_hours[current_data_type[0]]["all"]);
                                 dynamic_graph('first');
-                            }
+                         }
 
 
 
@@ -603,10 +838,17 @@ $('.conversion span').click(function() {
 
 
         }
-        // Если на странице распределений
+
 
 
 });
+
+
+if ($(".ui-tabs-selected a").text()=="Постоянные показатели") {
+
+init();
+
+}
 
 
 
